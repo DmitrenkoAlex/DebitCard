@@ -30,6 +30,7 @@ public class SeleniumTest {
         options.addArguments("--no-sandbox");
         options.addArguments("--headless");
         driver = new ChromeDriver(options);
+        driver.get("http://localhost:9999");
     }
 
     @AfterEach
@@ -40,9 +41,9 @@ public class SeleniumTest {
 
 
     @Test
-    public void PositiveTest() {
-        driver.get("http://localhost:9999");
-        driver.findElement(By.cssSelector("[type='text']")).sendKeys("Гарри Поттер");
+    public void positiveTest() {
+
+        driver.findElement(By.cssSelector("[type='text']")).sendKeys("Гарри Эванс-Поттер");
         driver.findElement(By.cssSelector("[type='tel']")).sendKeys("+78005553535");
         driver.findElement(By.cssSelector(".checkbox__box")).click();
         driver.findElement(By.cssSelector("button")).click();
@@ -52,8 +53,8 @@ public class SeleniumTest {
     }
 
     @Test
-    public void NegativeBecauseOfTranslitName() {
-        driver.get("http://localhost:9999");
+    public void negativeBecauseOfTranslitName() {
+
         driver.findElement(By.cssSelector("[type='text']")).sendKeys("Harry Поттер");
         driver.findElement(By.cssSelector("[type='tel']")).sendKeys("+78005553535");
         driver.findElement(By.cssSelector(".checkbox__box")).click();
@@ -64,8 +65,8 @@ public class SeleniumTest {
     }
 
     @Test
-    public void NegativeBecauseOfEmptyNameField() {
-        driver.get("http://localhost:9999");
+    public void negativeBecauseOfEmptyNameField() {
+
         driver.findElement(By.cssSelector("[type='text']")).sendKeys("");
         driver.findElement(By.cssSelector("[type='tel']")).sendKeys("+78005553535");
         driver.findElement(By.cssSelector(".checkbox__box")).click();
@@ -76,8 +77,8 @@ public class SeleniumTest {
     }
 
     @Test
-    public void NegativeBecauseOfIncorrectPhoneNumber() {
-        driver.get("http://localhost:9999");
+    public void negativeBecauseOfIncorrectPhoneNumber() {
+
         driver.findElement(By.cssSelector("[type='text']")).sendKeys("Гарри Поттер");
         driver.findElement(By.cssSelector("[type='tel']")).sendKeys("8005553535");
         driver.findElement(By.cssSelector(".checkbox__box")).click();
@@ -88,8 +89,8 @@ public class SeleniumTest {
     }
 
     @Test
-    public void NegativeBecauseOfEmptyPhoneNumber() {
-        driver.get("http://localhost:9999");
+    public void negativeBecauseOfEmptyPhoneNumber() {
+
         driver.findElement(By.cssSelector("[type='text']")).sendKeys("Гарри Поттер");
         driver.findElement(By.cssSelector("[type='tel']")).sendKeys("");
         driver.findElement(By.cssSelector(".checkbox__box")).click();
@@ -99,10 +100,9 @@ public class SeleniumTest {
         Assertions.assertEquals(expectedMessage, actualMessage.trim());
     }
 
-    // Нет флажка согласия в чек-боксе
     @Test
-    public void NegativeBecauseOfEmptyCheckBox() {
-        driver.get("http://localhost:9999");
+    public void negativeBecauseOfEmptyCheckBox() {
+
         driver.findElement(By.cssSelector("[type='text']")).sendKeys("Гарри Поттер");
         driver.findElement(By.cssSelector("[type='tel']")).sendKeys("+78005553535");
         driver.findElement(By.cssSelector("button")).click();
