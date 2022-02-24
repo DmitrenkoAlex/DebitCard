@@ -10,21 +10,20 @@ import org.openqa.selenium.chrome.ChromeOptions;
 
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 public class SeleniumTest {
     private WebDriver driver;
 
     @BeforeAll
     static void setUpAll() {
-        //указание, что нужно использовать драйвер на локальной машине и путь к нему
-        //System.setProperty("webdriver.chrome.driver", "./driver/win/chromedriver.exe");
-        //использование этой библиотеки позволяет скачаать драйвер для того же браузера и той же версии, но на linux для CI
+
         WebDriverManager.chromedriver().setup();
     }
 
     @BeforeEach
     void setUp() {
-        //Включение headless режима при использовании selenium
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--no-sandbox");
@@ -49,7 +48,7 @@ public class SeleniumTest {
         driver.findElement(By.cssSelector("button")).click();
         String expectedMessage = "Ваша заявка успешно отправлена! Наш менеджер свяжется с вами в ближайшее время.";
         String actualMessage = driver.findElement(By.cssSelector(".paragraph_theme_alfa-on-white")).getText();
-        Assertions.assertEquals(expectedMessage, actualMessage.trim());
+        assertEquals(expectedMessage, actualMessage.trim());
     }
 
     @Test
@@ -60,8 +59,8 @@ public class SeleniumTest {
         driver.findElement(By.cssSelector(".checkbox__box")).click();
         driver.findElement(By.cssSelector("button")).click();
         String expectedMessage = "Имя и Фамилия указаные неверно. Допустимы только русские буквы, пробелы и дефисы.";
-        String actualMessage = driver.findElement(By.cssSelector("[data-test-id = name] .input__sub")).getText();
-        Assertions.assertEquals(expectedMessage, actualMessage.trim());
+        String actualMessage = driver.findElement(By.cssSelector("[data-test-id='name'].input_invalid .input__sub")).getText();
+        assertEquals(expectedMessage, actualMessage.trim());
     }
 
     @Test
@@ -72,8 +71,8 @@ public class SeleniumTest {
         driver.findElement(By.cssSelector(".checkbox__box")).click();
         driver.findElement(By.cssSelector("button")).click();
         String expectedMessage = "Поле обязательно для заполнения";
-        String actualMessage = driver.findElement(By.cssSelector("[data-test-id = name] .input__sub")).getText();
-        Assertions.assertEquals(expectedMessage, actualMessage.trim());
+        String actualMessage = driver.findElement(By.cssSelector("[data-test-id='name'].input_invalid .input__sub")).getText();
+        assertEquals(expectedMessage, actualMessage.trim());
     }
 
     @Test
@@ -84,8 +83,8 @@ public class SeleniumTest {
         driver.findElement(By.cssSelector(".checkbox__box")).click();
         driver.findElement(By.cssSelector("button")).click();
         String expectedMessage = "Телефон указан неверно. Должно быть 11 цифр, например, +79012345678.";
-        String actualMessage = driver.findElement(By.cssSelector("[data-test-id=phone] .input__sub")).getText();
-        Assertions.assertEquals(expectedMessage, actualMessage.trim());
+        String actualMessage = driver.findElement(By.cssSelector("[data-test-id=phone].input_invalid .input__sub")).getText();
+        assertEquals(expectedMessage, actualMessage.trim());
     }
 
     @Test
@@ -96,8 +95,8 @@ public class SeleniumTest {
         driver.findElement(By.cssSelector(".checkbox__box")).click();
         driver.findElement(By.cssSelector("button")).click();
         String expectedMessage = "Поле обязательно для заполнения";
-        String actualMessage = driver.findElement(By.cssSelector("[data-test-id=phone] .input__sub")).getText();
-        Assertions.assertEquals(expectedMessage, actualMessage.trim());
+        String actualMessage = driver.findElement(By.cssSelector("[data-test-id=phone].input_invalid .input__sub")).getText();
+        assertEquals(expectedMessage, actualMessage.trim());
     }
 
     @Test
@@ -106,6 +105,7 @@ public class SeleniumTest {
         driver.findElement(By.cssSelector("[type='text']")).sendKeys("Гарри Поттер");
         driver.findElement(By.cssSelector("[type='tel']")).sendKeys("+78005553535");
         driver.findElement(By.cssSelector("button")).click();
-        driver.findElement(By.cssSelector(".input_invalid"));
+        String text = driver.findElement(By.className("checkbox__text")).getCssValue("color");
+        assertEquals("rgba(255, 92, 92, 1)", text);
     }
 }
